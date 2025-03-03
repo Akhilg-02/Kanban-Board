@@ -22,9 +22,10 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import SettingsIcon from "@mui/icons-material/Settings";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import Board from "./Board"
-import { useApi } from "../Context/ApiContext";
+import Board from "../Board/Board"
+import { useApi } from "../../Context/ApiContext";
 import { Navigate, useNavigate } from "react-router-dom";
+import "./Dashboard.css"
 
 const drawerWidth = 200;
 
@@ -121,62 +122,96 @@ const Dashboard = () => {
 
   return (
     <>
-    <Box sx={{ display: "flex" }}>
-      <CssBaseline />
-      <AppBar position="fixed" open={open}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{
-              marginRight: 5,
-              ...(open && { display: "none" }),
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap component="div" sx={{ color: "#FFCE56", display: "flex" }}>
-            📜 Kanban Board
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <Drawer variant="permanent" open={open}>
-        <DrawerHeader>
-          <Typography variant="h6" noWrap component="div">
-            📜 Kanban Board
-          </Typography>
-          <IconButton onClick={handleDrawerClose} sx={{ color: "white" }}>
-            {theme.direction === "rtl" ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-          </IconButton>
-        </DrawerHeader>
-        <Divider />
-        <List>
-          {["Dashboard", "Tasks", "Settings", "Logout"].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: "block" }}>
-              <ListItemButton 
-              sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }}
-              onClick={index === 3 ? handleLogout : undefined}
-              >
-                <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center", color: "white" }}>
-                  {index === 0 && <DashboardIcon />}
-                  {index === 1 && <AssignmentIcon />}
-                  {index === 2 && <SettingsIcon />}
-                  {index === 3 && <ExitToAppIcon onClick={handleLogout}/>}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-      </Drawer>
-    </Box>
-    <Box component="main" x={{ flexGrow: 2, p: 8 }}>
-      <Board/>
-    </Box>
+      <Box sx={{ display: "flex" }} className="dashboard-container">
+        <CssBaseline />
+        <AppBar position="fixed" open={open} sx={{ backgroundColor: "#1e1e1e" }}>
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              sx={{
+                marginRight: 5,
+                ...(open && { display: "none" }),
+              }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" noWrap component="div" className="app-title" sx={{ color: "#FFCE56" }}>
+              📜 Kanban Board
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        <Drawer
+          variant="permanent"
+          open={open}
+          sx={{
+            "& .MuiDrawer-paper": {
+              backgroundColor: "#1e1e1e",
+              color: "white",
+            },
+          }}
+        >
+          <DrawerHeader className="drawer-header">
+            <Typography variant="h6" noWrap component="div" sx={{ color: "#FFCE56" }}>
+              📜 Kanban Board
+            </Typography>
+            <IconButton onClick={handleDrawerClose} sx={{ color: "white" }}>
+              {theme.direction === "rtl" ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+            </IconButton>
+          </DrawerHeader>
+          <Divider sx={{ backgroundColor: "rgba(255,255,255,0.1)" }} />
+          <List>
+            {["Dashboard", "Tasks", "Settings", "Logout"].map((text, index) => (
+              <ListItem key={text} disablePadding sx={{ display: "block" }} className="drawer-list-item">
+                <ListItemButton
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: 2.5,
+                    borderRadius: "8px",
+                    mx: 1,
+                    "&:hover": {
+                      backgroundColor: "rgba(255,255,255,0.1)",
+                    },
+                  }}
+                  onClick={index === 3 ? handleLogout : undefined}
+                >
+                  <ListItemIcon
+                    sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center", color: "white" }}
+                    className="drawer-icon"
+                  >
+                    {index === 0 && <DashboardIcon />}
+                    {index === 1 && <AssignmentIcon />}
+                    {index === 2 && <SettingsIcon />}
+                    {index === 3 && <ExitToAppIcon />}
+                  </ListItemIcon>
+                  <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+        </Drawer>
+      </Box>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          p: 3,
+          ml: open ? `${drawerWidth}px` : `calc(${theme.spacing(8)} + 1px)`,
+          transition: theme.transitions.create("margin", {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.enteringScreen,
+          }),
+          pt: 10,
+        }}
+      >
+        <Board />
+      </Box>
     </>
   );
 };
 
 export default Dashboard;
+

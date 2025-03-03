@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Registration from "../Components/Registration";
-import  Login from '../Components/Login'
-import Dashboard from "../Components/Dashboard";
+import Registration from "../Components/Registration/Registration";
+import  Login from '../Components/Login/Login'
+import Dashboard from "../Components/Dashboard/Dashboard";
 import ProtectedRoute from "./ProtectedRoute";
 
 

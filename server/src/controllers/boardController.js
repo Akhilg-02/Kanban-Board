@@ -32,40 +32,4 @@ const getBoards = async (req, res) => {
 };
 
 
-// Update Board
-const updateBoard = async (req, res) => {
-  try {
-    const { title } = req.body;
-    const board = await Board.findOneAndUpdate(
-      { _id: req.params.id, user: req.user.id },
-      { title },
-      { new: true }
-    );
-
-    if (!board) return res.status(404).json({ error: "Board not found" });
-    
-    res.json(board);
-  } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-};
-
-// Delete Board (and all its lists and tasks)
-const deleteBoard = async (req, res) => {
-  try {
-    const board = await Board.findOneAndDelete({ _id: req.params.id, user: req.user.id });
-
-    if (!board) return res.status(404).json({ error: "Board not found" });
-
-    // Delete all lists in this board
-    await List.deleteMany({ board: board._id });
-    // Delete all tasks in those lists
-    await Task.deleteMany({ list: { $in: await List.find({ board: board._id }).select("_id") } });
-
-    res.json({ message: "Board deleted" });
-  } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-};
-
-module.exports = { createBoard, getBoards, updateBoard, deleteBoard  };
+module.exports = { createBoard, getBoards};

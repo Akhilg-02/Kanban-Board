@@ -1,0 +1,23 @@
+  .login-title {
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: #333;
+    text-align: center;
+  }
+  
+
+  .login-button {
+    margin-top: 24px;
+    padding: 12px 0;
+    border-radius: 8px;
+    font-weight: 600;
+    text-transform: none;
+    font-size: 16px;
+  }
+  
+  .login-link {
+    margin-top: 16px;
+    text-align: center;
+  }
+  
+  

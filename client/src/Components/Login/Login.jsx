@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { loginSchema } from "./Validation";
-import { useApi } from "../Context/ApiContext";
+import { loginSchema } from "../Validation";
+import { useApi } from "../../Context/ApiContext";
 import {
   TextField,
   Button,
@@ -12,10 +12,11 @@ import {
   CircularProgress,
   Link,
 } from "@mui/material";
+import "./Login.css";
 
 const Login = () => {
   const navigate = useNavigate();
-  const {user, loginUser } = useApi();
+  const { user, loginUser } = useApi();
 
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
@@ -57,32 +58,49 @@ const Login = () => {
   };
 
   return (
-    <Container component="main" maxWidth="xs" sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
-      <Paper 
-        elevation={6} 
-        sx={{ 
-          padding: 4, 
-          width: 400, 
-          height: 300, 
-          display: "flex", 
-          flexDirection: "column", 
-          justifyContent: "center", 
-          alignItems: "center", 
-          borderRadius: 3, 
+    <Container
+      component="main"
+      maxWidth="xs"
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+      }}
+    >
+      <Paper
+        elevation={6}
+        sx={{
+          padding: 4,
+          width: 400,
+          height: 300,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          borderRadius: 3,
           backgroundColor: "#f5f5f5",
         }}
       >
-        <Typography variant="h5" component="h2" gutterBottom fontWeight="bold" color="primary">
-          Login
+        <Typography variant="h5" component="h1" className="login-title">
+          Welcome Back
         </Typography>
 
         {error && (
-          <Typography color="error" variant="body2">
+          <Typography
+            color="error"
+            variant="body2"
+            sx={{ mb: 2, textAlign: "center" }}
+          >
             {error}
           </Typography>
         )}
 
-        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2, width: "100%" }}>
+        <Box
+          component="form"
+          onSubmit={handleSubmit}
+          sx={{ mt: 2, width: "100%" }}
+        >
           <TextField
             fullWidth
             margin="normal"
@@ -111,16 +129,33 @@ const Login = () => {
             type="submit"
             fullWidth
             variant="contained"
-            color="primary"
+            className="login-button"
             disabled={loading}
-            sx={{ mt: 2, borderRadius: 2, fontWeight: "bold", padding: "10px 0" }}
+            sx={{
+              mt: 2,
+              borderRadius: 2,
+              fontWeight: "bold",
+              padding: "10px 0",
+              backgroundColor: "#FFCE56",
+              color: "#333",
+              "&:hover": {
+                backgroundColor: "#FFB74D",
+              },
+            }}
           >
             {loading ? <CircularProgress size={24} /> : "Login"}
           </Button>
         </Box>
 
-        <Typography variant="body2" sx={{ mt: 2 }}>
-          Don't have an account? <Link href="/" underline="hover">Register</Link>
+        <Typography variant="body2" className="login-link">
+          Don't have an account?{" "}
+          <Link
+            href="/"
+            underline="hover"
+            sx={{ color: "#FFCE56", fontWeight: 500 }}
+          >
+            Register
+          </Link>
         </Typography>
       </Paper>
     </Container>
@@ -128,3 +163,5 @@ const Login = () => {
 };
 
 export default Login;
+
+
