@@ -95,18 +95,18 @@ This project is a **Kanban board** with a **ReactJS frontend** and a **Node.js +
 ## 🚀 Backend Setup (Node.js + Express + MongoDB)
 
 ### **1️⃣ Install Dependencies**
-Navigate to the `backend` directory and install required dependencies:
+Navigate to the `server` directory and install required dependencies:
 
 ```
-cd backend
+cd server
 npm install
 ```
 
 ### **2️⃣ Setup Environment Variables**
-Create a .env file inside the backend directory and add the following:
+Create a .env file inside the server directory and add the following:
 ```
 PORT=any_port_number
-MONGO_URI=your_mongodb_connection_string
+MONGO_URI=your_mongodb_connection_url
 SECRET_KEY=your_secret_key 
 ```
 
@@ -118,9 +118,9 @@ npm start
 ## 🎨 Frontend Setup (ReactJS)
 
 ### **1️⃣ Install Dependencies**
-Navigate to the frontend directory and install dependencies:
+Navigate to the `client` directory and install dependencies:
 ```
-cd frontend
+cd client
 npm install
 ```
 
