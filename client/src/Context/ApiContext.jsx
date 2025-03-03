@@ -1,9 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/";
-
-//axios.defaults.headers.common["Authorization"] = `Bearer ${sessionStorage.getItem("token")}`;
+const API_URL = import.meta.env.VITE_SERVER_URL
 
 const ApiContext = createContext();
 
@@ -14,11 +12,6 @@ export const ApiProvider = ({ children }) => {
   const [boards, setBoards] = useState([]);
   const [lists, setLists] = useState([]);
   const [tasks, setTasks] = useState([]);
-  // const authToken = user?.token;
-
-  // if (authToken) {
-  //   axios.defaults.headers.common["Authorization"] = `Bearer ${authToken}`;
-  // }
 
   useEffect(() => {
     const authToken = user?.token;
