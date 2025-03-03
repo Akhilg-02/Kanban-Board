@@ -25,7 +25,7 @@ export const ApiProvider = ({ children }) => {
     if (authToken) {
       axios.defaults.headers.common["Authorization"] = `Bearer ${authToken}`;
     } else {
-      delete axios.defaults.headers.common["Authorization"]; // Remove if not authenticated
+      delete axios.defaults.headers.common["Authorization"]; 
     }
   }, [user]);
 
@@ -151,6 +151,8 @@ export const ApiProvider = ({ children }) => {
         ...prev,
         [listId]: [...(prev[listId] || []), data], // Append new task to the list
       }));
+
+      
     } catch (error) {
       console.error("Error creating task:", error);
     }

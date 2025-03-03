@@ -1,26 +1,26 @@
 import { useState, useEffect } from "react";
 import { useApi } from "../../Context/ApiContext";
 import {
-    Button,
-    Card,
-    CardContent,
-    TextField,
-    Typography,
-    IconButton,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
-    Grid2 as Grid,
-    MenuItem,
-    Box
+  Button,
+  Card,
+  CardContent,
+  TextField,
+  Typography,
+  IconButton,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Grid2 as Grid,
+  MenuItem,
+  Box,
 } from "@mui/material";
 import { Edit, Delete, Add } from "@mui/icons-material";
-import "./Task.css"
-//import { useDragDrop } from "../Context/DndContext";
+import "./Task.css";
+// import { useDrag, useDrop } from "react-dnd";
+// import { useDragDrop } from "../../Context/DndContext";
 
-
-const Task = ({ listId}) => {
+const Task = ({ listId }) => {
   const { tasks, createTask, getTasks, updateTask, deleteTask } = useApi();
 
   // Single state to handle task fields
@@ -40,12 +40,16 @@ const Task = ({ listId}) => {
     }
   }, [listId]);
 
-
-const handleOpenDialog = (task = null) => {
+  const handleOpenDialog = (task = null) => {
     setEditingTask(task);
     setTaskData(
       task
-        ? { title: task.title, description: task.description, dueDate: task.dueDate, priority: task.priority }
+        ? {
+            title: task.title,
+            description: task.description,
+            dueDate: task.dueDate,
+            priority: task.priority,
+          }
         : { title: "", description: "", dueDate: "", priority: "medium" }
     );
 
@@ -57,9 +61,7 @@ const handleOpenDialog = (task = null) => {
     window.location.reload();
   };
 
-
-
-const handleChange = (e) => {
+  const handleChange = (e) => {
     setTaskData({ ...taskData, [e.target.name]: e.target.value });
   };
 
@@ -67,7 +69,13 @@ const handleChange = (e) => {
     if (editingTask) {
       await updateTask(editingTask._id, taskData);
     } else {
-      await createTask(listId, taskData.title, taskData.description, taskData.dueDate, taskData.priority);
+      await createTask(
+        listId,
+        taskData.title,
+        taskData.description,
+        taskData.dueDate,
+        taskData.priority
+      );
     }
     handleCloseDialog();
     getTasks(listId);
@@ -97,18 +105,10 @@ const handleChange = (e) => {
       </Button>
 
       {/* Task Dialog Box */}
-      <Dialog
-        open={openDialog}
-        onClose={handleCloseDialog}
-        fullWidth
-        PaperProps={{
-          sx: {
-            borderRadius: "12px",
-            padding: "8px",
-          },
-        }}
-      >
-        <DialogTitle sx={{ fontWeight: 600 }}>{editingTask ? "Edit Task" : "Add Task"}</DialogTitle>
+      <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth>
+        <DialogTitle sx={{ fontWeight: 600 }}>
+          {editingTask ? "Edit Task" : "Add Task"}
+        </DialogTitle>
         <DialogContent>
           <TextField
             label="Title"
@@ -192,7 +192,10 @@ const handleChange = (e) => {
                 <div className="task-meta">
                   <div>
                     <Typography variant="caption" className="task-due-date">
-                      Due: {task.dueDate ? new Date(task.dueDate).toLocaleDateString() : "Not set"}
+                      Due:{" "}
+                      {task.dueDate
+                        ? new Date(task.dueDate).toLocaleDateString()
+                        : "Not set"}
                     </Typography>
                     <Typography
                       variant="caption"
@@ -200,14 +203,23 @@ const handleChange = (e) => {
                       className={`task-priority priority-${task.priority}`}
                       sx={{ ml: 1 }}
                     >
-                      {task.priority.charAt(0).toUpperCase() + task.priority.slice(1)}
+                      {task.priority.charAt(0).toUpperCase() +
+                        task.priority.slice(1)}
                     </Typography>
                   </div>
                   <div className="task-actions">
-                    <IconButton color="primary" onClick={() => handleOpenDialog(task)} size="small">
+                    <IconButton
+                      color="primary"
+                      onClick={() => handleOpenDialog(task)}
+                      size="small"
+                    >
                       <Edit fontSize="small" />
                     </IconButton>
-                    <IconButton color="error" onClick={() => handleDeleteTask(task._id, listId)} size="small">
+                    <IconButton
+                      color="error"
+                      onClick={() => handleDeleteTask(task._id, listId)}
+                      size="small"
+                    >
                       <Delete fontSize="small" />
                     </IconButton>
                   </div>
@@ -244,6 +256,3 @@ const handleChange = (e) => {
 };
 
 export default Task;
-
-
-

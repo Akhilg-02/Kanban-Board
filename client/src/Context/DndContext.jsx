@@ -5,34 +5,43 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 const DragDropContext = createContext();
 
 export const DragDropProvider = ({ children }) => {
-  const [tasks, setTasks] = useState({});
+  const [DragTasks, setDragTasks] = useState({});
 
-  const moveTask = (taskId, sourceListId, targetListId, targetIndex) => {
-    setTasks((prevTasks) => {
+  const moveTask = (listId, fromIndex, toIndex) => {
+    setDragTasks((prevTasks) => {
+      if (!prevTasks[listId]) return prevTasks;
+
+      //console.log("Before move:", prevTasks[listId]);
+
       const updatedTasks = { ...prevTasks };
-  
-      if (!updatedTasks[sourceListId]) return prevTasks;
-  
-      // Find and remove task
-      const taskIndex = updatedTasks[sourceListId].findIndex((t) => t._id === taskId);
-      if (taskIndex === -1) return prevTasks;
-  
-      const [movedTask] = updatedTasks[sourceListId].splice(taskIndex, 1);
-  
-      // Ensure target list exists
-      if (!updatedTasks[targetListId]) updatedTasks[targetListId] = [];
-  
-      // Insert task at the new position
-      updatedTasks[targetListId].splice(targetIndex, 0, movedTask);
-  
-      return { ...updatedTasks }; // Return new state
+      const taskList = [...updatedTasks[listId]];
+
+      if (fromIndex === toIndex) return prevTasks;
+      if (
+        fromIndex < 0 ||
+        fromIndex >= taskList.length ||
+        toIndex < 0 ||
+        toIndex >= taskList.length
+      ) {
+        return prevTasks;
+      }
+
+      const [movedTask] = taskList.splice(fromIndex, 1);
+      taskList.splice(toIndex, 0, movedTask);
+
+      updatedTasks[listId] = taskList;
+
+      //console.log("After move:", updatedTasks[listId]);
+      return updatedTasks;
     });
   };
 
   return (
-    <DragDropContext.Provider value={{ tasks, setTasks, moveTask }}>
-      <DndProvider backend={HTML5Backend}>{children}</DndProvider>
-    </DragDropContext.Provider>
+    <DndProvider backend={HTML5Backend}>
+      <DragDropContext.Provider value={{ DragTasks, moveTask }}>
+        {children}
+      </DragDropContext.Provider>
+    </DndProvider>
   );
 };
 
