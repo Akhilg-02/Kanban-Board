@@ -64,6 +64,10 @@ const Registration = () => {
 
   const isFormComplete = Object.values(formData).every((value) => value.trim() !== "");
 
+  const handleLoginPage = () =>{
+    navigate("/login")
+  }
+
   return (
     <Container component="main" maxWidth="xs" sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
     <Paper 
@@ -132,7 +136,7 @@ const Registration = () => {
 
       <Typography variant="body2" className="registration-link">
           Already have an account?{" "}
-          <Link href="/login" underline="hover" sx={{ color: "#FFCE56", fontWeight: 500 }}>
+          <Link onClick={handleLoginPage} underline="hover" sx={{ color: "#FFCE56", fontWeight: 500, cursor: "pointer" }}>
             Login
           </Link>
         </Typography>

@@ -57,6 +57,10 @@ const Login = () => {
     }
   };
 
+  const handleSignUpPage = () =>{
+    navigate("/")
+  }
+
   return (
     <Container
       component="main"
@@ -150,9 +154,9 @@ const Login = () => {
         <Typography variant="body2" className="login-link">
           Don't have an account?{" "}
           <Link
-            href="/"
+            onClick={handleSignUpPage}
             underline="hover"
-            sx={{ color: "#FFCE56", fontWeight: 500 }}
+            sx={{ color: "#FFCE56", fontWeight: 500, cursor: "pointer" }}
           >
             Register
           </Link>
