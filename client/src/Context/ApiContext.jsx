@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 
-const API_URL = import.meta.env.VITE_SERVER_URL // http://localhost:5000/api/ (for runnig locally)
+const API_URL = "https://kanban-board-539t.onrender.com/api/" // http://localhost:5000/api/ (for runnig locally)
 
 const ApiContext = createContext();
 
