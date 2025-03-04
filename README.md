@@ -124,7 +124,13 @@ cd client
 npm install
 ```
 
-### **2️⃣ Start the Frontend**
+### **2️⃣ Setup Environment Variables**
+Create a .env file inside the client directory and add the following:
+```
+VITE_SERVER_URL=backend_server_url
+```
+
+### **3️⃣ Start the Frontend**
 ```
 npm run dev
 ```
